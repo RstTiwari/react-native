@@ -7,7 +7,7 @@ const backGroundImage = require("../assets/background.jpg");
 const welocomeLogo = require("../assets/logo-red.png");
 export default function WelocomeScreen({navigation}) {
   const signIn = ()=>{
-    return navigation.navigate("view")
+    return navigation.navigate("signin")
   }
   const register = ()=>{
     return navigation.navigate("register")
@@ -16,7 +16,7 @@ export default function WelocomeScreen({navigation}) {
         <ImageBackground source={backGroundImage} style={styles.background}>
             <View style={styles.logoContainer}>
                 <Image source={welocomeLogo} style={styles.logo} />
-                <Text>Sell What You Dont Need</Text>
+                <Text>MyFac8ry Automizing your Factory</Text>
             </View>
             <TouchableOpacity style={styles.loginButton} onPress={signIn}>
              <Text style ={styles.primaryText}>SIGNIN</Text>

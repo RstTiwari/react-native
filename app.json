@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "newapp",
-    "slug": "newapp",
+    "name": "myfac8ry",
+    "slug": "myfac8ry",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/logo.jpg",
+    "icon": "./app/assets/logo.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/logo.jpg",
+      "image": "/",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,15 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./app/assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
+      ]
+    ]
   }
 }

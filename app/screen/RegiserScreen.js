@@ -4,11 +4,12 @@ import React from 'react'
 const RegiserScreen = () => {
   return (
     <View>
-
     </View>
   )
 }
 
 export default RegiserScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})
