@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { CameraView, Camera } from "expo-camera/next";
 
-export default function BarcodeScanner() {
+export default function BarcodeScanner({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -37,6 +37,7 @@ export default function BarcodeScanner() {
         }}
         style={StyleSheet.absoluteFillObject}
       />
+      <Button title ="BACK" onPress={()=>{navigation.goBack()}} />
       {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}

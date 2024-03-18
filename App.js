@@ -10,12 +10,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import WelocomeScreen from "./app/screen/WelocomeScreen";
 import HomeScreen from "./app/screen/HomeScreen";
 
-
 /**
  * Pages
  */
 import SignIn from "./app/Pages/SignIn";
 import { useEffect, useState } from "react";
+import Challan from "./app/components/Inventory/Challanlist";
+import Layout from "./Layout";
+import SingleChallan from "./app/components/Inventory/SingleChallan";
+import BarcodeScanner from "./app/components/Scanner/BarcodeScanner";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -38,7 +41,22 @@ export default function App() {
                     <>
                         <Stack.Screen
                             name="home"
-                            component={HomeScreen}
+                            component={Layout(HomeScreen)}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="challanList"
+                            component={Layout(Challan)}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="singleChallan"
+                            component={Layout(SingleChallan)}
+                            options={{ headerShown: false }}
+                        />
+                           <Stack.Screen
+                            name="scanItem"
+                            component={Layout(BarcodeScanner)}
                             options={{ headerShown: false }}
                         />
                     </>
@@ -63,6 +81,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 5 : 0,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 7 : 0,
     },
 });

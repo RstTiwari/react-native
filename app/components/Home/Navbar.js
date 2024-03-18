@@ -1,52 +1,40 @@
 import * as React from "react";
-import { useState } from "react";
-import { View } from "react-native";
+import { useState, useRef } from "react";
+import {
+    Button,
+    DrawerLayoutAndroid,
+    Text,
+    StyleSheet,
+    View,
+} from "react-native";
 import { Appbar, Menu, Divider, PaperProvider } from "react-native-paper";
-import { StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MenuFoldOutlined } from "@ant-design/icons";
 import Sidebar from "./Sidebar";
 
-const Navbar = () => {
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const showMenu = () => {
-        console.log("isDrwaeropen");
-        setIsDrawerOpen(!isDrawerOpen);
-        console.log(isDrawerOpen);
-    };
+const Navbar = ({ navigation }) => {
+    const drawer = useRef(null);
     return (
-        <>
+        <DrawerLayoutAndroid
+            ref={drawer}
+            drawerWidth={250}
+            drawerPosition={"left"}
+            renderNavigationView={() => <Sidebar navigation={navigation} />}
+        >
             <Appbar.Header style={styles.topNavbar}>
-                <Appbar.Action icon="menu" onPress={() => showMenu()} />
-                <Appbar.Content title="Myfac8ry" style={styles.appbarContent} />
-                {/* Use a custom icon for the search button */}
+                <Appbar.Content title="Myfac8ry" />
                 <Appbar.Action
                     icon={({ color, size }) => (
                         <MaterialCommunityIcons
-                            name="account"
+                            name="menu"
                             color={color}
                             size={size}
                         />
                     )}
-                    onPress={() => console.log("Search pressed")}
+                    onPress={() => drawer.current.openDrawer()}
                 />
             </Appbar.Header>
-            <PaperProvider>
-                <View
-                    style={{
-                        paddingTop: 50,
-                        flexDirection: "row",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Menu visible={true} onDismiss={showMenu}>
-                        <Menu.Item onPress={() => {}} title="Item 1" />
-                        <Menu.Item onPress={() => {}} title="Item 2" />
-                        <Divider />
-                        <Menu.Item onPress={() => {}} title="Item 3" />
-                    </Menu>
-                </View>
-            </PaperProvider>
-        </>
+        </DrawerLayoutAndroid>
     );
 };
 
@@ -54,6 +42,7 @@ export default Navbar;
 
 const styles = StyleSheet.create({
     topNavbar: {
+        backgroundColor: "white",
         // Change the background color of the top navigation bar
     },
     appbarContent: {
