@@ -39,11 +39,7 @@ export default function App() {
             <Stack.Navigator initialRouteName="challanList">
                 {token ? (
                     <>
-                        <Stack.Screen
-                            name="home"
-                            component={HomeScreen}
-                            options={{ headerShown: false }}
-                        />
+                
                         <Stack.Screen
                             name="challanList"
                             component={Challan}
@@ -51,7 +47,7 @@ export default function App() {
                         />
                         <Stack.Screen
                             name="singleChallan"
-                            component={Layout(SingleChallan)}
+                            component={BarcodeScanner}
                             options={{ headerShown: false }}
                         />
                            <Stack.Screen

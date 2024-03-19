@@ -12,8 +12,7 @@ const Challan = ({ navigation }) => {
     const [ChallanData, setChallanData] = useState([]);
     const [loading, setLoading] = useState(false);
     const handleOpenChallan = (item, navigation) => {
-        setAddItem(true);
-        setChallanNo(item.challanNumber);
+        navigation.navigate("singleChallan",{challanNo:item.challanNumber})
     };
 
     const fetchingChallanList = async () => {
@@ -28,10 +27,9 @@ const Challan = ({ navigation }) => {
         setChallanData(result);
         setLoading(false);
     };
-    const onBackClick =()=>{
-        setAddItem(false)
-
-    }
+    const onBackClick = () => {
+        setAddItem(false);
+    };
     useEffect(() => {
         fetchingChallanList();
     }, []);
@@ -39,55 +37,45 @@ const Challan = ({ navigation }) => {
         <SafeAreaWrapper>
             {!loading ? (
                 <>
-                    {!addItem ? (
-                        <View>
-                            <DataTable>
-                                <DataTable.Header>
-                                    <DataTable.Title>Challan#</DataTable.Title>
-                                    <DataTable.Title>Customer</DataTable.Title>
-                                    <DataTable.Title>Status</DataTable.Title>
+                    <View>
+                        <DataTable>
+                            <DataTable.Header>
+                                <DataTable.Title>Challan#</DataTable.Title>
+                                <DataTable.Title>Customer</DataTable.Title>
+                                <DataTable.Title>Status</DataTable.Title>
 
-                                    <DataTable.Title>Add Item</DataTable.Title>
-                                </DataTable.Header>
+                                <DataTable.Title>Add Item</DataTable.Title>
+                            </DataTable.Header>
 
-                                {ChallanData.map((item) => (
-                                    <DataTable.Row
-                                        key={item.challanNumber}
-                                        style={styles.rowContent}
-                                    >
-                                        <DataTable.Cell>
-                                            {item.challanNumber}
-                                        </DataTable.Cell>
-                                        <DataTable.Cell>
-                                            {item.customer.customerName}
-                                        </DataTable.Cell>
-                                        <DataTable.Cell>
-                                            {"DRAFT"}
-                                        </DataTable.Cell>
-                                        <DataTable.Cell>
-                                            <Button
-                                                onPress={() =>
-                                                    handleOpenChallan(
-                                                        item,
-                                                        navigation
-                                                    )
-                                                }
-                                            >
-                                                {/* Use onPress instead of title */}
-                                                ADD
-                                            </Button>
-                                        </DataTable.Cell>
-                                    </DataTable.Row>
-                                ))}
-                            </DataTable>
-                        </View>
-                    ) : (
-                        <Barcode
-                            navigation={navigation}
-                            challanNo={challanNo}
-                            onBackClick ={onBackClick}
-                        />
-                    )}
+                            {ChallanData.map((item) => (
+                                <DataTable.Row
+                                    key={item.challanNumber}
+                                    style={styles.rowContent}
+                                >
+                                    <DataTable.Cell>
+                                        {item.challanNumber}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.customer.customerName}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>{"DRAFT"}</DataTable.Cell>
+                                    <DataTable.Cell>
+                                        <Button
+                                            onPress={() =>
+                                                handleOpenChallan(
+                                                    item,
+                                                    navigation
+                                                )
+                                            }
+                                        >
+                                            {/* Use onPress instead of title */}
+                                            ADD
+                                        </Button>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                        </DataTable>
+                    </View>
                 </>
             ) : (
                 <ActivityIndicator />
