@@ -36,17 +36,17 @@ export default function App() {
     }, []);
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="home">
+            <Stack.Navigator initialRouteName="challanList">
                 {token ? (
                     <>
                         <Stack.Screen
                             name="home"
-                            component={Layout(HomeScreen)}
+                            component={HomeScreen}
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="challanList"
-                            component={Layout(Challan)}
+                            component={Challan}
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen

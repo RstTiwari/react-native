@@ -18,7 +18,7 @@ const SignIn = ({ navigation }) => {
         });
         if (success) {
             setLoading(false)
-            navigation.navigate("home");
+            navigation.navigate("challanList");
         } else {
             setLoading(false)
             return Alert.alert("Failed", message, {

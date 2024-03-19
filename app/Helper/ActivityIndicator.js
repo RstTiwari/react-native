@@ -3,11 +3,11 @@ import React from "react";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import SafeAreaWrapper from "./SafeAreaView";
 
-const ActivityIndicator = ({ loading }) => {
+const PageLoader = ({ loading }) => {
     return (
         <View style={styles.container}>
             <SafeAreaWrapper>
-                <ActivityIndicator
+                <PageLoader
                     animating={loading}
                     color={MD2Colors.red800}
                 />

@@ -1,54 +1,127 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import { CameraView, Camera } from "expo-camera/next";
+import { message } from "antd";
+import { Camera, CameraType, BarCodeScanner } from "expo-camera";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 
-export default function BarcodeScanner({navigation}) {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+import { appApi } from "../../Helper/ApiCall";
 
-  useEffect(() => {
-    const getCameraPermissions = async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
+export default function Barcode({ navigation, challanNo, onBackClick }) {
+    const [type, setType] = useState(CameraType.back);
+    const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [scanned, setScanned] = useState(false);
+    const [value, setValue] = useState("Not scan yet");
+    const [scannedItems, setScannedItems] = useState([]);
+
+    const handleBarCodeScanned = ({ type, data }) => {
+        setScanned(true);
+        setValue(data);
+        setScannedItems((prev) => [...prev, { description: data }]);
     };
 
-    getCameraPermissions();
-  }, []);
+    if (!permission) {
+        // Camera permissions are still loading
+        return <View />;
+    }
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    console.log("sacnned happend");
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
+    if (!permission.granted) {
+        // Camera permissions are not granted yet
+        return (
+            <View style={styles.container}>
+                <Text style={{ textAlign: "center" }}>
+                    We need your permission to show the camera
+                </Text>
+                <Button onPress={requestPermission} title="grant permission" />
+            </View>
+        );
+    }
+    const appProduct = async () => {
+        try {
+            const { success, result, message } = await appApi("challan", {
+                action: "update",
+                value: { challanNo: challanNo, items: scannedItems },
+            });
+            if (!success) {
+                return alert(`${message}`);
+            }
+            navigation.goBack();
+        } catch (error) {
+            alert(`${error.message}`);
+        }
+    };
+    console.log(navigation, "nav");
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+    return (
+        <View>
+            <Button title="Back" onPress={onBackClick} />
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <Camera
+                    style={styles.camera}
+                    type={type}
+                    autoFocus={true}
+                    onBarCodeScanned={
+                        scanned ? undefined : handleBarCodeScanned
+                    }
+                ></Camera>
+                <View>
+                    <Text>{value}</Text>
+                    {scanned ? (
+                        <Button
+                            title="Scan Again"
+                            onPress={() => {
+                                setScanned(null), setValue("Yet to Scan");
+                            }}
+                        />
+                    ) : (
+                        ""
+                    )}
+                </View>
 
-  return (
-    <View style={styles.container}>
-      <CameraView
-        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-        barcodeScannerSettings={{
-          barcodeTypes: ["qr", "pdf417"],
-        }}
-        style={StyleSheet.absoluteFillObject}
-      />
-      <Button title ="BACK" onPress={()=>{navigation.goBack()}} />
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
-    </View>
-  );
+                <View style={{ marginTop: 20 }}>
+                    <View style={{ paddingBottom: 20 }}>
+                        <Text>List of Selected Item</Text>
+                    </View>
+                    {scannedItems &&
+                        scannedItems.map((item, index) => {
+                            return (
+                                <Text key={index}>
+                                    {index + 1} = {item.description}
+                                </Text>
+                            );
+                        })}
+                    <Button title="SUBMIT" onPress={() => appProduct()} />
+                </View>
+            </ScrollView>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-  },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    scrollViewContent: {
+        alignItems: "center", // Apply alignment styles here
+        justifyContent: "center", // Apply alignment styles here
+    },
+    camera: {
+        height: 150,
+        width: 300,
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        backgroundColor: "transparent",
+        margin: 64,
+    },
+    button: {
+        alignSelf: "flex-end",
+        alignItems: "center",
+    },
+    text: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "white",
+    },
 });
