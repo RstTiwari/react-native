@@ -78,7 +78,7 @@ const Challan = ({ navigation }) => {
                     </View>
                 </>
             ) : (
-                <ActivityIndicator />
+                <ActivityIndicator  text={"Fetching Challan List Please Wait"} />
             )}
         </SafeAreaWrapper>
     );

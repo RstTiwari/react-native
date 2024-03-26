@@ -3,20 +3,21 @@ import React from "react";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import SafeAreaWrapper from "./SafeAreaView";
 
-const PageLoader = ({ loading }) => {
+const PageLoader = ({ loading ,text}) => {
     return (
         <View style={styles.container}>
             <SafeAreaWrapper>
-                <PageLoader
+                <ActivityIndicator
                     animating={loading}
                     color={MD2Colors.red800}
                 />
+                <Text>{text}</Text>
             </SafeAreaWrapper>
         </View>
     );
 };
 
-export default ActivityIndicator;
+export default PageLoader;
 
 const styles = StyleSheet.create({
     container: {
