@@ -4,18 +4,14 @@
     "slug": "myfac8ry",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./app/assets/logo.jpg",
+    "icon": "./app/assets/logo-red.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "/",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ftms.ftms"
     },
     "android": {
       "package": "com.ftms.ftms",
